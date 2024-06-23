@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  pytorch:
+    build: 
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: rocm_pytorch_dev
+    volumes:
+      - .:/workspace
+    ports:
+      - "8888:8888"  # Jupyter Notebook
+    networks:
+      - net_backend
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+    command: bash
+
+networks:
+  net_backend:
+    external:
+      name: web_server
