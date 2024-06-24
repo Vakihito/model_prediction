@@ -1,5 +1,5 @@
 # Use the ROCm PyTorch image as the base image
-FROM rocm/pytorch:latest
+FROM rocm/pytorch:rocm6.1.3_ubuntu22.04_py3.10_pytorch_release-2.1.2
 
 # Set the working directory
 WORKDIR /workspace
@@ -9,6 +9,12 @@ RUN apt-get update && apt-get install -y \
     vim \
     git \
     && rm -rf /var/lib/apt/lists/*
+
+# Create the .ssh directory
+RUN mkdir -p ~/.ssh
+
+# Add GitHub to the known hosts
+RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 # Install Docker CE CLI
 RUN apt-get update \
